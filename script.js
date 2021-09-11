@@ -1,7 +1,6 @@
 //You can edit ALL of the code here
 const rootElem = document.getElementById("root");
 
-
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
@@ -13,73 +12,62 @@ searchEpisodesBox.addEventListener("keyup",searchEpisodes);
 function searchEpisodes(){
 let searchEpisodesBox =document.querySelector("#searchEpisodes");
 console.log(searchEpisodesBox.value)
+
+const allEpisodes = getAllEpisodes();
+let filteredEpisodes = allEpisodes.filter(filterEpisodes);
+makePageForEpisodes(filteredEpisodes)
 }
 
+function filterEpisodes(episode){
+  let searchEpisodesBox =document.querySelector("#searchEpisodes");
+  console.log(searchEpisodesBox.value)
+
+  if(episode.name.toLowerCase().includes(searchEpisodesBox.value.toLowerCase())){
+    return true;
+  }else {
+    return false;
+  }
+}
 
 function makePageForEpisodes(episodeList) {
+  rootElem.innerHTML ="";
+
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
   episodeList.forEach(createCard)
 }
-
-
-// function createCard(episode){
-//   const name = episode.name
-//   const seasonNum = episode.season
-//   const episodeNum =episode.number
-//   const imageMed = episode.image.medium
-//   const episodeSummury = episode.summary
-//   // console.log(name +" " +seasonNum +" " + episodeNum +" "+imageMed +" " +episodeSummury);
-
-//   const card = document.createElement("div")
-//   card.classList.add("card");
-//   card.setAttribute("id",'card')
-//   const h1 = document.createElement("h1");
-//   h1.classList.add("title");
-//   h1.textContent = name
-//   card.appendChild(h1);
-
-
-//   const img = document.createElement("img");
-//   img.setAttribute("src",imageMed  );
-//   card.appendChild(img);
-
-
-//   const p = document.createElement("p");
-//   p.textContent = episodeSummury;
-//   card.appendChild(p);
-//   console.log(p)
-// }
-
-function createCard(episode){
-
- let card = document.createElement("span");
+function createCard(episode){  
+ let card =document.createElement("span")
  let cardTitle =document.createElement("h2")
-
  cardTitle.innerText =episode.name;
+ cardTitle.className ="episodeAlign"
  card.appendChild(cardTitle);
- rootElem.appendChild(card);
 
-// let code =document.createElement("span")
-
-// let episodeNum =episode.number.toString();
-// let episodeSeason =episode.season.toString();
-// code.innerText =`S${episodeNum.padStart(2, '0')}``E${episodeSeason.padStart(2, '0')}`;
-
-// card.appendChild(code)
+ let cardEpisodeNumber = document.createElement("h5");
+// cardEpisodeNumber.innerText =episode.season+ " " + episode.number;
+cardEpisodeNumber.textContent =` -S0${episode.season}E0${episode.number}`;
+card.appendChild(cardEpisodeNumber);
 
 
  let cardImage =document.createElement("img");
  cardImage.src = episode.image.medium;
+ cardImage.alt = episode.name;
+ cardImage.title = episode.name;
+ cardImage.className = "imgCenter";
+
  card.appendChild(cardImage);
 
 
- let cardSummary =document.createElement("p");
- cardSummary.innerText = episode.summary;
- card.appendChild(cardSummary);
+ let cardEpisodeSummary =document.createElement("span");
+ cardEpisodeSummary.innerHTML = episode.summary;
+ card.appendChild(cardEpisodeSummary);
 
-  // console.log(card)
+ card.className = "episodeCard";
+
+rootElem.appendChild(card)
+
 }
+
 
 
 
