@@ -1,11 +1,26 @@
 //You can edit ALL of the code here
 const rootElem = document.getElementById("root");
+function fectchEpisodes(url){
+  fetch(url)
+  .then((data)=>{
+    return data.json();
+  })
+  .then((episodeList) => {
+    makePageForEpisodes(episodeList);
+  })
+
+  .catch((error) => console.log(error));
+}
 
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
+  // const allEpisodes = getAllEpisodes();
+  //
+
+  fectchEpisodes("https://api.tvmaze.com/shows/82/episodes")
 
 let searchEpisodesBox =document.querySelector("#searchEpisodes");
+
+
 searchEpisodesBox.addEventListener("keyup",searchEpisodes);
 }
 
@@ -16,6 +31,7 @@ console.log(searchEpisodesBox.value)
 const allEpisodes = getAllEpisodes();
 let filteredEpisodes = allEpisodes.filter(filterEpisodes);
 makePageForEpisodes(filteredEpisodes)
+
 }
 
 function filterEpisodes(episode){
@@ -30,15 +46,19 @@ function filterEpisodes(episode){
 }
 
 function makePageForEpisodes(episodeList) {
-  rootElem.innerHTML ="";
+  const allEpisodes = getAllEpisodes();
 
+  console.log(episodeList.length);
+  rootElem.innerHTML ="";
+  const displayEpisode = document.querySelector(".displeyEpisode")
+  displayEpisode.innerText ="Displaying "+ episodeList.length + "/" +allEpisodes.length +" episodes";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
   episodeList.forEach(createCard)
 }
 function createCard(episode){  
  let card =document.createElement("span")
- let cardTitle =document.createElement("h2")
+ let cardTitle =document.createElement("h4")
  cardTitle.innerText =episode.name;
  cardTitle.className ="episodeAlign"
  card.appendChild(cardTitle);
