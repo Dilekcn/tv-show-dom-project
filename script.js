@@ -34,6 +34,14 @@ makePageForEpisodes(filteredEpisodes)
 
 }
 
+
+let searchOption = document.querySelector("#searchOption");
+
+searchOption.onclick = (event) =>{
+  event.preventDefault();
+  
+}
+
 function filterEpisodes(episode){
   let searchEpisodesBox =document.querySelector("#searchEpisodes");
   console.log(searchEpisodesBox.value)
