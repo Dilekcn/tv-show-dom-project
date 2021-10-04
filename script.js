@@ -9,13 +9,44 @@ ball.addEventListener("click",()=>{
 })
 
 
-const url = 'https://api.tvmaze.com/shows/82/episodes';
-//Fetch
-fetch(url)
-  .then(response => response.json())
-  .then(data => card(data))
-  .catch(err =>{console.log(err)})
+// const url = 'https://api.tvmaze.com/shows/82/episodes';
+// //Fetch
+// fetch(url)
+//   .then(response => response.json())
+//   .then(data => card(data))
+//   .catch(err =>{console.log(err)})
  
+// rewrite setup to be async and separate make page and search - await keyword ensures we'll wait until the episodeList is set
+async function setup() {
+  await fetch("https://api.tvmaze.com/shows/82/episodes")
+  .then((res) => res.json())
+  .then((episodes) => {
+    episodeList = episodes;
+  });
+  console.log(episodeList)
+  card(episodeList);
+  // searchEpisodes(episodeList);
+}
+
+// rewrite searchEpisodes to use episodeList instead of allEpisodes
+function searchEpisodes(episodeList) {
+   let searchEpisodesBox = document.querySelector("#searchEpisodes");
+console.log(searchEpisodesBox.value);
+
+let filteredEpisodes = episodeList.filter(filterEpisodes);
+card(filteredEpisodes);
+}
+function filterEpisodes(episode){
+  console.log(episode)
+  let searchEpisodesBox =document.querySelector("#searchEpisodes");
+  console.log(searchEpisodesBox.value)
+
+  if(episode.name.toLowerCase().includes(searchEpisodesBox.value.toLowerCase())){
+    return true;
+  }else {
+    return false;
+  }
+}
 
 
 let container = document.querySelector(".movie_card_container")
@@ -25,8 +56,9 @@ function card(data){
     container.innerHTML ="";
     const displayEpisode = document.querySelector(".displeyEpisode")
     displayEpisode.innerText ="Displaying "+ data.length + "/" +data.length +" episodes";
+   
     data.forEach(createCard);
-    searchEpisodes(data)
+    // searchEpisodes(data)
 
 
 }
@@ -72,13 +104,16 @@ function card(data){
     //Search
   
       /************************************************** */
- let searchEpisodesBox =document.querySelector("#searchEpisodes");
-searchEpisodesBox.addEventListener("keyup",searchEpisodes);
+//  let searchEpisodesBox =document.querySelector("#searchEpisodes");
+// searchEpisodesBox.addEventListener("keyup",searchEpisodes);
 
 
-function searchEpisodes(){
-  let searchEpisodesBox =document.querySelector("#searchEpisodes");
-console.log(searchEpisodesBox.value)
+// function searchEpisodes(){
+//   let searchEpisodesBox =document.querySelector("#searchEpisodes");
+// console.log(searchEpisodesBox.value)
 
 
-}
+// }
+
+
+window.onload = setup;
