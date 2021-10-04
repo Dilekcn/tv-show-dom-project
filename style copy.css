@@ -1,0 +1,25 @@
+
+#root {
+  color: red;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+ 
+}
+.episodeCard{
+  
+  width: 330px;
+  height: 430px;
+  border: 1px solid black;
+  margin: 3px;
+  padding: 5px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.tvHeader{
+height: 100px;
+width: 100%;
+background-color: black;
+margin-bottom: 15px;
+}
